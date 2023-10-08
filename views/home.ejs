@@ -1,0 +1,70 @@
+<%- include('header'); -%>
+
+    <div class="flex align-item-center">
+        <div class="flex flex-1 items-center justify-center p-6">
+            <button style="width: 150px;" class="p-3" onclick="window.location.href='/add'">add article</button>
+        </div>
+
+        <div class="flex flex-1 items-center justify-center p-6">
+            <div class="w-full max-w-lg">
+                <form action="/post" method="get" class="mt-5 sm:flex sm:items-center">
+                    <input id="q" name="search"
+                        class="inline w-full rounded-md  bg-white py-2 pl-3 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none  sm:text-sm"
+                        placeholder="search" type="search" autofocus="" value="">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="new-article grid grid-cols-5 gap-6 m-9">
+        <img class="m-3"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+        <img class="m-3"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+        <img class="m-3"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+        <img class="m-3"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+        <img class="m-3"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="">
+    </div>
+
+    <div class="flex flex-row m-3">
+        <div class="w-full overflow-x-scroll overflow-hidden m-3">
+            <% if(categories !== undefined && categories.length > 0) { %>
+                <div class="flex space-x-4">
+                    <% for(let i = 0; i < categories.length; i++) { %>
+                        <div class="category-card" onclick="window.location.href='/post?categoryId=<%=categories[i].id%>'" >
+                            <input type="hidden" value="<%= categories[i].id %>" id="">
+                            <h3 class="text-lg font-semibold mt-2">
+                                <%= categories[i].title %>
+                            </h3>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+        <button class="h-11 w-11 rounded-full m-3">+</button>
+    </div>
+    
+
+    <div class="grid grid-cols-4 gap-6 m-9">
+        <%if(posts !=undefined){ for(let i=0; i < posts.length; i++) { %>
+            <div class="article-card flex flex-col">
+                <img class="m-3" src="./uploads/<%= posts[i].image %>" alt="<%= posts[i].title %>" onclick="window.location.href='/post/<%=posts[i].id%>'">
+                <h5 class="ml-3">
+                    <%= posts[i].title %>
+                </h5>
+                <p class="m-3">
+                    <%= posts[i].content %>
+                </p>
+            </div>
+            <% }} %>
+    </div>
+
+    <%- include('footer'); -%>

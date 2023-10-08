@@ -1,61 +1,93 @@
-const { Post } = require('../models');
+const Joi = require('joi');
+const Category = require('../models/Category.js');
 
-// Create a new post
-exports.createPost = async (req, res) => {
+// Joi schema for createCategory route
+const createCategorySchema = Joi.object({
+  title: Joi.string().required(),
+});
+
+// Create a new category
+const createCategory = async (req, res) => {
+  const { error } = createCategorySchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
+  const { title } = req.body;
+
   try {
-    const { title, content } = req.body;
-    const sql = 'INSERT INTO posts (title, content) VALUES (?, ?)';
-    const post = await Post.create(req.body);
-    res.status(201).json(post);
+    const categoryId = await Category.create(title);
+    return 'Category created successfully';
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error creating post' });
+    res.status(500).json({ error: 'Error creating category' });
   }
 };
 
-// Read all posts
-exports.getAllPosts = async (req, res) => {
+// Get all categories
+const getAllCategories = async (req, res) => {
   try {
-    const posts = await Post.findAll();
-    res.json(posts);
+    const categories = await Category.getAll();
+    return categories;
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error getting posts' });
+    res.status(500).json({ error: 'Error getting categories' });
+  }
+};
+// Get all categories
+const getAllCategoriesIdPost = async (postId) => {
+  try {
+    const categories = await Category.getAllPostId(postId);
+    return categories;
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error getting categories' });
   }
 };
 
-// Update a post by ID
-exports.updatePost = async (req, res) => {
-  const { id } = req.params;
+// Get a category by ID
+const getCategoryById = async (req, res) => {
+  const { categoryId } = req.params;
   try {
-    const [updatedRows] = await Post.update(req.body, {
-      where: { id },
-    });
-    if (updatedRows > 0) {
-      res.json({ message: 'Post updated successfully' });
-    } else {
-      res.status(404).json({ error: 'Post not found' });
-    }
+    const category = await Category.getById(categoryId);
+    return category;
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error updating post' });
+    res.status(404).json({ error: 'Category not found' });
   }
 };
 
-// Delete a post by ID
-exports.deletePost = async (req, res) => {
-  const { id } = req.params;
+// Update a category by ID
+const updateCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  const { title } = updateCategorySchema.validate(req.body);
   try {
-    const deletedRows = await Post.destroy({
-      where: { id },
-    });
-    if (deletedRows > 0) {
-      res.json({ message: 'Post deleted successfully' });
-    } else {
-      res.status(404).json({ error: 'Post not found' });
-    }
+    await Category.update(categoryId, title);
+    return 'Category updated successfully';
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error deleting post' });
+    return 'Category not found';
   }
+};
+
+// Delete a category by ID
+const deleteCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  try {
+    await Category.delete(categoryId);
+    return 'Category deleted successfully';
+  } catch (error) {
+    console.error(error);
+    return 'Category not found';
+  }
+};
+
+module.exports = {
+  createCategory,
+  getAllCategories,
+  getCategoryById,
+  updateCategory,
+  deleteCategory,
+  getAllCategoriesIdPost,
 };

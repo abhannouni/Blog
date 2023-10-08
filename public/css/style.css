@@ -1,0 +1,121 @@
+body {
+    background-color: #FCF0E2;
+    font-family: Inria Serif;
+}
+
+nav {
+    background-color: #FBE6D1;
+}
+
+.logo {
+    color: #000;
+    font-family: Joti One;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.loun {
+    border-radius: 50px 0px 0px 50px;
+    border: 0px solid #000;
+    background: linear-gradient(180deg, #FCAC3B 0%, rgba(252, 172, 59, 0.36) 100%);
+    box-shadow: 0px 4px 4px 0px rgba(252, 172, 59, 0.25);
+}
+
+.new-article img{
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+    border-radius: 40px;
+}
+
+.scroll-container {
+    position: relative;
+    min-width: 200px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.scroll-container::-webkit-scrollbar {
+    width: 0;
+}
+
+.scroll-container-add {
+    position: relative;
+    min-width: 200px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.category-card {
+    min-width: 75px;
+    max-width: 125px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+.category-card.active {
+    background-color: gray; /* Gray background color for active category */
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+}
+
+.article-card {
+    min-width: 300px;
+    max-width: 250px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.article p {
+    color: #000;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+.article h2{
+    color: #000;
+    font-size: 75px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+input{
+    border-radius: 20px !important;
+    background-color: #FBE6D1 !important;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+button{
+    border-radius: 20px;
+    /* width: 90px; */
+    background: linear-gradient(180deg, rgba(252, 172, 59, 0.33) 0%, rgba(252, 172, 59, 0.00) 100%);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.article-card img{
+    border-radius: 40px;
+}
+.article-card h5{
+    color: #000;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.article-card p{
+    color: #000;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

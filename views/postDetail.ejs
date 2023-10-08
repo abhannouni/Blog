@@ -1,0 +1,29 @@
+<%- include('header'); -%>
+
+<div class="main-article flex flex-row container grid grid-cols-[auto_1fr] ">
+    <div class="flex-1">
+        <img class="" style="height: 92vh; width: 50vw;" src="uploads/<%= post.image%>" alt="">
+    </div>
+    <div class="article flex-1 right-0">
+        <h2 class="flex justify-center m-6"><%= post.title%></h2>
+        <p class="flex justify-center overflow-y-scroll m-6 " style="width: auto; height: 400px;">
+            <%= post.content%>
+        </p>
+        <div class="w-full overflow-x-scroll overflow-hidden m-3">
+            <% if(categories !== undefined && categories.length > 0) { %>
+                <div class="flex space-x-4">
+                    <% for(let i = 0; i < categories.length; i++) { %>
+                        <div class="category-card" onclick="window.location.href='/post?categoryId=<%=categories[i].id%>'" >
+                            <input type="hidden" value="<%= categories[i].id %>" id="">
+                            <h3 class="text-lg font-semibold mt-2">
+                                <%= categories[i].title %>
+                            </h3>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('footer'); -%>

@@ -1,18 +1,26 @@
 const express = require('express');
 const mysql = require('mysql2');
+const ejs = require('ejs');
+const path = require('path');
 const app = express();
-const dbConfig = require('./config/db'); 
+const PostRoutre = require('./routes/PostRoute.js')
 
 const PORT = process.env.PORT || 4000;
-const dbConnection = mysql.createConnection(dbConfig);
 
+// Set the view engine to EJS
 app.set('view engine', 'ejs');
+
+// Set the directory for your views/templates
+app.set('views', path.join(__dirname, 'views'));
+
+// Set the directory for your static files (e.g., CSS, JavaScript)
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.urlencoded({extended: true}));
-app.use(express.static("public"));
 
-
-app.get("/", (req,res)=>{
-    res.send("hello");
+app.use(PostRoutre);
+app.get("/add", (req,res)=>{
+    res.render("add");
 });
 
 app.listen(PORT, ()=>{
