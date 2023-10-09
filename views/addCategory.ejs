@@ -6,14 +6,12 @@
 <% } %>
 <div class="flex justify-center m-6">
 
-    <h1>add article</h1>
+    <h1>add category</h1>
 </div>
-<form action="/post" method="post" enctype="multipart/form-data">
+<form action="/category" method="post" enctype="multipart/form-data">
     <div class="flex">
         <div class="flex-1 flex flex-col gap-6 m-9">
             <input  name="title"  class="inline w-full rounded-md  bg-white py-2 pl-3 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none  sm:text-sm" placeholder="title" type="" autofocus="" value="">
-            <input type="file" name="image" id="">
-            <input type="text" name="content" style="height: 435px;flex-shrink: 0;" id="">
         </div>
         <div class="flex-1">
             <div class="flex justify-center m-6">
@@ -23,16 +21,23 @@
             <input type="hidden" name="categories" id="cat_id_string">
             <div class=" m-9 overflow-y-scroll overflow-hidden " style="width: auto; height: 300px;">
                 <div class="grid grid-cols-4 gap-6" >
-                    <% categories.forEach(category => { %>
-                        <div class="category-card" onclick="toggleCategory(this)">
-                          <p class="hidden"><%= category.id %></p>
-                          <h3 class="text-lg font-semibold mt-2"><%= category.title %></h3>
-                        </div>
-                      <% }); %>
+                    <div class="category-card" onclick="toggleCategory(this)">
+                        <p class="hidden">1</p>
+                        <h3 class="text-lg font-semibold mt-2">Category 1</h3>
+                    </div>
+                    <div class="category-card" onclick="toggleCategory(this)">
+                        <p class="hidden">2</p>
+                        <h3 class="text-lg font-semibold mt-2">Category 2</h3>
+                    </div>
+                    <div class="category-card" onclick="toggleCategory(this)">
+                        <p class="hidden">3</p>
+                        <h3 class="text-lg font-semibold mt-2">Category 3</h3>
+                    </div>
+    
                 </div>
             </div>
             <div class="flex flex-1 items-center justify-center p-6"> 
-                <button style="width: 150px;" class="p-3">add Category</button>
+                <button style="width: 150px;" class="p-3">add article</button>
             </div>
         </div>
     </div>

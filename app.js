@@ -19,9 +19,7 @@ app.use(express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.urlencoded({extended: true}));
 
 app.use(PostRoutre);
-app.get("/add", (req,res)=>{
-    res.render("add");
-});
+
 
 app.listen(PORT, ()=>{
     console.log(`server started at http://127.0.0.1:${PORT}`);

@@ -104,11 +104,11 @@ const Post = {
     });
   },
 
-  update: (postId, title, image, content) => {
+  update: (postId, title, content) => {
     return new Promise((resolve, reject) => {
       dbPool.query(
-        'UPDATE Post SET title = ?, image = ?, content = ? WHERE id = ?',
-        [title, image, content, postId],
+        'UPDATE Post SET title = ?, content = ? WHERE id = ?',
+        [title, content, postId],
         (err, results) => {
           if (err) {
             return reject(err);

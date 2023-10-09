@@ -1,18 +1,18 @@
-const express =require('express');
+const express = require('express');
 const multer = require('multer');
 const path = require('path');
 
 const router = express.Router();
-const  { createPost, getAllPosts, getPostById, updatePost, deletePost } =require( '../controllers/PostController.js');
-const  { createCategory, getAllCategories, getCategoryById, updateCategory, getAllCategoriesIdPost } =require( '../controllers/CategoryController.js');
+const { createPost, getAllPosts, getPostById, updatePost, deletePost } = require('../controllers/PostController.js');
+const { createCategory, getAllCategories, getCategoryById, updateCategory, getAllCategoriesIdPost } = require('../controllers/CategoryController.js');
 
-//uplaod image
+// Upload image
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
   }
 });
 
@@ -20,31 +20,62 @@ const upload = multer({ storage: storage }).single('image');
 
 // Route to display the post CRUD view
 router.get('/post', async (req, res) => {
-  const posts = await getAllPosts(req,res);
-  const categories = await getAllCategories(req,res);
-  res.render('home', {posts,categories} );
+  try {
+    const posts = await getAllPosts(req, res);
+    const categories = await getAllCategories(req, res);
+    res.render('home', { posts, categories });
+  } catch (error) {
+    res.render('error', { error });
+  }
 }); 
+
+router.get("/add", async (req, res) => {
+  try {
+    const categories = await getAllCategories(req, res);
+    res.render("add", { categories });
+  } catch (error) {
+    res.render('error', { error });
+  }
+});
+
+router.get("/addCategory", async (req, res) => {
+  try {
+    res.render("addCategory");
+  } catch (error) {
+    res.render('error', { error });
+  }
+});
+
 
 // Route to create a new post (POST request)
 router.post('/post', upload, async (req, res) => {
   try {
-    const successMessage = await createPost(req, res);
-    res.render('home', { successMessage });
+    await createPost(req, res);
+    res.redirect('/post');
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error creating post' });
+    res.render('error', { error });
   }
 });
 
 // Route to display a specific post by ID
 router.get('/post/:postId', async (req, res) => {
   try {
-    const post = await getPostById(req,res);
-    const categories = await getAllCategories(req.params.postId);
+    const post = await getPostById(req, res);
+    const categories = await getAllCategoriesIdPost(req.params.postId);
     res.render('postDetail', { post, categories });
   } catch (error) {
-    console.error(error);
-    res.status(404).json({ error: 'Post not found' });
+    res.render('error', { error });
+  }
+});
+
+// Route to update a specific post by ID (POST request)
+router.get('/post/update/:postId', async (req, res) => {
+  try {
+    const post = await getPostById(req, res);
+    const categories = await getAllCategoriesIdPost(req.params.postId);
+    res.render('update', { post, categories });
+  } catch (error) {
+    res.render('error', { error });
   }
 });
 
@@ -53,24 +84,21 @@ router.post('/post/update/:postId', async (req, res) => {
   try {
     await updatePost(req, res);
     // Redirect back to the post CRUD view after successful update
-    // res.redirect('/post');
+    res.redirect('/post/' + req.params.postId);
   } catch (error) {
-    console.error(error);
-    res.status(404).json({ error: 'Post not found' });
+    res.redirect('/post/' + req.params.postId);
   }
 });
 
 // Route to delete a specific post by ID (POST request)
 router.post('/post/delete/:postId', async (req, res) => {
   try {
-    await deletePost(req,res);
+    await deletePost(req, res);
     // Redirect back to the post CRUD view after successful deletion
-    res.redirect('/post-crud');
+    res.redirect('/post');
   } catch (error) {
-    console.error(error);
-    res.status(404).json({ error: 'Post not found' });
+    res.redirect('/post', { error });
   }
 });
-
 
 module.exports = router;

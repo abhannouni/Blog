@@ -70,15 +70,20 @@ const getPostById = async (req, res) => {
 // Update a post by ID
 const updatePost = async (req, res) => {
   const { postId } = req.params;
-  const { title, image, content } = updatePostSchema.validate(req.body);
+  const post = await Post.getById(postId);
+  console.log(post);
+  const title = req.body.title === "" ? req.body.title : post.title;
+  const content =  req.body.content === "" ? req.body.content : post.content;
+
   try {
-    await Post.update(postId, title, image, content);
-      return 'Post updated successfully';
+    await Post.update(postId, title, content);
+    return 'Post updated successfully';
   } catch (error) {
     console.error(error);
     return 'Post not found';
   }
 };
+
 
 // Delete a post by ID
 const deletePost = async (req, res) => {
